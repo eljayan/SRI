@@ -25,12 +25,18 @@ def create_cathegories(cursor):
 
 def exists_table(db, t_name):
     cursor = db.cursor()
-    table_count = cursor.execute("SELECT count(*) FROM {dbn} WHERE type = 'table' AND name = {tn}"\
-                                 .format(dbn = db, tn = t_name))
-    return table_count
+    # table_count = cursor.execute("select count(*) from sqlite_master where type = 'table' and name = {tn}"\
+    #                              .format(tn = t_name))
+
+    table_count = cursor.execute("select count(*) from sqlite_master where name = :t_name and type= 'table'", {"t_name":t_name})
+    return table_count.fetchone()[0]
+
 
 if __name__ == '__main__':
     conn = sqlite3.Connection("test.db")
     cursor = conn.cursor()
     #print cursor.execute("")
-    print exists_table(conn, "PROVEEDORES")
+    if exists_table(conn, "PROVEEDORE"):
+        print "si existe!"
+    else:
+        print "no exite"

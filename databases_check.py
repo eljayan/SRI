@@ -2,13 +2,19 @@
 
 import sqlite3
 
+def check(conn):
+	create_suppliers(conn)
+	create_invoices(conn)
+	create_cathegories(conn)
+	
+
 def create_suppliers(conn):
     '''crea el template de los suppliers, si no existe'''
     
     if exists_table(conn, "PROVEEDORES"):
         return
     else:
-        conn.execute("create table PROVEEDORES (ID integer primary key autoincrement, RUC integer(13) unique, NOMBRE text(255))")
+        conn.execute("create table PROVEEDORES (ID integer primary key autoincrement not null, RUC text(13) unique not null, NOMBRE text(255) not null)")
     return
 
 def create_invoices(conn):
@@ -16,7 +22,7 @@ def create_invoices(conn):
     if exists_table(conn, "FACTURAS"):
         return
     else:
-        conn.execute("create table FACTURAS (ID integer primary key autoincrement, NUMERO text unique, PROVEEDOR integer, foreign key (PROVEEDOR) references PROVEEDORES(ID))")
+        conn.execute("create table FACTURAS (ID integer primary key autoincrement not null,FECHA text(20) not null,  NUMERO text unique not null, PROVEEDOR integer not null, foreign key (PROVEEDOR) references PROVEEDORES(ID))")
     return
 
 def create_cathegories(conn):
@@ -24,7 +30,7 @@ def create_cathegories(conn):
     if exists_table(conn, "CATEGORIAS"):
         return
     else:
-        conn.execute("create table CATEGORIAS(ID integer primary key autoincrement, CATEGORIA text unique)")
+        conn.execute("create table CATEGORIAS(ID integer primary key autoincrement, CATEGORIA text unique not null)")
     #crea el template de la categoria de expense
     return
 

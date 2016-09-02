@@ -1,14 +1,14 @@
 #this is a program that records my invoices from sri
 import sqlite3
-from pdb import set_trace
-from databases_check import check
+from load_databases import load_databases
 
 def main():
     #create a connection to db or create it
-    #set_trace()
+
     connection = sqlite3.Connection("sri.db")
-    #test if the tables exist, if not create them
-    check(connection)
+
+    #load or create databases
+    load_databases(connection)
 
     #load gui
 
